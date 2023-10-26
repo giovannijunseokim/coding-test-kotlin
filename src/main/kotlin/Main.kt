@@ -1,7 +1,15 @@
 fun main(args: Array<String>) {
-    println("Hello World!")
+    println(Solution().solution("10203", "15"))
+}
 
-    // Try adding program arguments via Run/Debug configuration.
-    // Learn more about running applications: https://www.jetbrains.com/help/idea/running-applications.html.
-    println("Program arguments: ${args.joinToString()}")
+class Solution {
+    fun solution(t: String, p: String): Int {
+        var answer: Int = 0
+        for (index in 0..t.length - p.length) {
+            if (t.substring(index, index + p.length).toLong() <= p.toLong())
+                answer++
+        }
+
+        return answer
+    }
 }
