@@ -4,12 +4,8 @@ fun main(args: Array<String>) {
 
 class Solution {
     fun solution(t: String, p: String): Int {
-        var answer: Int = 0
-        for (index in 0..t.length - p.length) {
-            if (t.substring(index, index + p.length).toLong() <= p.toLong())
-                answer++
-        }
-
-        return answer
+        return (0..t.length - p.length)
+            .map { startIndex -> t.substring(startIndex until startIndex + p.length) }
+            .count { substring -> substring <= p }
     }
 }
