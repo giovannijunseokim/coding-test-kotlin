@@ -1,11 +1,18 @@
 fun main(args: Array<String>) {
-    println(Solution().solution("10203", "15"))
+    println(Solution().solution(intArrayOf(1, 1, -1, 1)))
 }
 
 class Solution {
-    fun solution(t: String, p: String): Int {
-        return (0..t.length - p.length)
-            .map { startIndex -> t.substring(startIndex until startIndex + p.length) }
-            .count { substring -> substring <= p }
+    fun solution(numbers: IntArray): Int {
+        var answer: Int = 0
+
+        for (firstStudent in 0..numbers.size - 3) {
+            for (secondStudent in firstStudent + 1..numbers.size - 2)
+                for (thirdStudent in secondStudent + 1 until numbers.size)
+                    if (numbers[firstStudent] + numbers[secondStudent] + numbers[thirdStudent] == 0)
+                        answer++
+        }
+
+        return answer
     }
 }
