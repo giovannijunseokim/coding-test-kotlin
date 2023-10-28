@@ -1,16 +1,16 @@
-fun main(args: Array<String>) {
-    println(Solution().solution(intArrayOf(1, 1, -1, 1)))
+fun main() {
+    println(Solution().solution(3, 1, 20))
 }
 
 class Solution {
-    fun solution(numbers: IntArray): Int {
-        var answer: Int = 0
+    fun solution(a: Int, b: Int, n: Int): Int {
+        var answer = 0
+        var emptyCokes = n
 
-        for (firstStudent in 0..numbers.size - 3) {
-            for (secondStudent in firstStudent + 1..numbers.size - 2)
-                for (thirdStudent in secondStudent + 1 until numbers.size)
-                    if (numbers[firstStudent] + numbers[secondStudent] + numbers[thirdStudent] == 0)
-                        answer++
+        while (emptyCokes >= a) {
+            val newCokes = emptyCokes / a * b
+            answer += newCokes
+            emptyCokes = newCokes + emptyCokes % a
         }
 
         return answer
