@@ -9,9 +9,7 @@ class Solution {
         var firstPlayerFoodList = ""
         food.mapIndexed { index, foodCount ->
             val playerFoodCount = foodCount / 2
-            for (i in 0 until playerFoodCount) {
-                firstPlayerFoodList += index
-            }
+            firstPlayerFoodList += index.toString().repeat(playerFoodCount)
         }
         val secondPlayerFoodList: String = firstPlayerFoodList.reversed()
 
