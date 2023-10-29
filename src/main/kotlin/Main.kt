@@ -1,18 +1,21 @@
 fun main() {
-    println(Solution().solution(3, 1, 20))
+
 }
 
 class Solution {
-    fun solution(a: Int, b: Int, n: Int): Int {
-        var answer = 0
-        var emptyCokes = n
+    fun solution(food: IntArray): String {
+        val answer: String
 
-        while (emptyCokes >= a) {
-            val newCokes = emptyCokes / a * b
-            answer += newCokes
-            emptyCokes = newCokes + emptyCokes % a
+        var firstPlayerFoodList = ""
+        food.mapIndexed { index, foodCount ->
+            val playerFoodCount = foodCount / 2
+            for (i in 0 until playerFoodCount) {
+                firstPlayerFoodList += index
+            }
         }
+        val secondPlayerFoodList: String = firstPlayerFoodList.reversed()
 
+        answer = firstPlayerFoodList + "0" + secondPlayerFoodList
         return answer
     }
 }
