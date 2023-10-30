@@ -1,18 +1,19 @@
+import java.util.*
+
 fun main() {
 
 }
 
 class Solution {
     fun solution(k: Int, scores: IntArray): IntArray {
-        val tempList = mutableListOf<Int>()
-        val answerList = scores.map { score ->
-            tempList.run {
-                add(score)
-                sortDescending()
-                if (size < k) last()
-                else slice(0 until k).last()
-            }
+        val answerList: MutableList<Int> = mutableListOf()
+        val scorePriorityQueue: PriorityQueue<Int> = PriorityQueue()
+        scores.forEach { score ->
+            scorePriorityQueue.add(score)
+            if (scorePriorityQueue.size > k) scorePriorityQueue.poll()
+            answerList.add(scorePriorityQueue.peek())
         }
+
         return answerList.toIntArray()
     }
 }
