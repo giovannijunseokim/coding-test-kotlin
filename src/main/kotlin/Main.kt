@@ -3,17 +3,16 @@ fun main() {
 }
 
 class Solution {
-    fun solution(k: Int, m: Int, score: IntArray): Int {
-        var profitSum = 0
-        score.sortDescending()
-
-        var fruitIndex = 0
-        while (fruitIndex <= score.size - m) {
-            val fruitBox = score.slice(fruitIndex until fruitIndex + m)
-            profitSum += fruitBox.last() * m
-            fruitIndex += m
+    fun solution(k: Int, scores: IntArray): IntArray {
+        val tempList = mutableListOf<Int>()
+        val answerList = scores.map { score ->
+            tempList.run {
+                add(score)
+                sortDescending()
+                if (size < k) last()
+                else slice(0 until k).last()
+            }
         }
-
-        return profitSum
+        return answerList.toIntArray()
     }
 }
