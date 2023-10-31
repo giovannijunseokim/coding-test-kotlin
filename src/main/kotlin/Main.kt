@@ -1,23 +1,33 @@
 fun main() {
-    println(Solution().solution(10, 3, 2))
+    println(Solution().solution(arrayOf("ayayeaya", "ayaaya", "woowooma", "mawooyeaya")))
 }
 
 class Solution {
-    fun solution(number: Int, limit: Int, power: Int): Int {
-        return IntArray(number) { index -> calculateFactors(index + 1) }
-            .fold(0) { ironAmount, knightPower ->
-                if (knightPower > limit) ironAmount + power
-                else ironAmount + knightPower
-            }
-    }
+    fun solution(babbling: Array<String>): Int {
+        var answer = 0
+        val wordsCanSpeak = arrayListOf("aya", "ye", "woo", "ma")
 
-    private fun calculateFactors(number: Int): Int {
-        var factorCount = 0
-        var index = 1
-        while (index * index < number) {
-            if (number % index++ == 0) factorCount += 2
+        babbling.forEach { word ->
+            var removableWord = word
+
+            for (index in 0 until wordsCanSpeak.size) {
+                val wordCanSpeak = wordsCanSpeak[index]
+                var tempStartIndex: Int? = null
+
+                while (removableWord.contains(wordCanSpeak)) {
+                    val startIndex = removableWord.indexOf(wordCanSpeak)
+                    if (tempStartIndex == startIndex) break
+                    removableWord = removableWord.replaceRange(startIndex until startIndex + wordCanSpeak.length, " ")
+                    tempStartIndex = startIndex + 1
+                }
+
+                if (removableWord.isBlank()) {
+                    answer++
+                    break
+                }
+            }
         }
-        if (index * index == number) factorCount++
-        return factorCount
+
+        return answer
     }
 }
