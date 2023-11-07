@@ -3,90 +3,30 @@ fun main() {
 }
 
 class Solution {
+    /** 출발 위치 찾기 */
+    private fun findStart(park: Array<String>): MutableList<Int> {
+        for (y in park.indices)
+            for (x in park[y].indices)
+                if (park[y][x] == 'S')
+                    return mutableListOf(y, x)
+        return mutableListOf(0, 0)
+    }
+
     fun solution(park: Array<String>, routes: Array<String>): IntArray {
-        val minX = 0
-        val minY = 0
-
-        val maxX = park.first().length - 1
-        val maxY = park.size - 1
-
-        var currentX: Int = -1
-        var currentY: Int = -1
-
-        park.forEachIndexed { startStringIndex, string ->
-            val startCharIndex = string.indexOf('S')
-            if (startCharIndex != -1) {
-                currentX = startCharIndex
-                currentY = startStringIndex
-                return@forEachIndexed
-            }
-        }
-
-        fun checkCanMove(opCode: Char, step: Int): Boolean {
-            var tempX = currentX
-            var tempY = currentY
-
-            when (opCode) {
-                'E' -> {
-                    if ((tempX + step) !in minX..maxX) return false
-                    for (index in 0 until step) {
-                        tempX++
-                        if (park[tempY][tempX] == 'X') return false
-                    }
+        /** 방향 입력 시 방향으로 한 칸 변환하는 Pair 를 얻는 Map */
+        val directions = mapOf('E' to (0 to 1), 'W' to (0 to -1), 'N' to (-1 to 0), 'S' to (1 to 0))
+        /** route 배열을 방향, step Pair 의 배열로 변경 */
+        return routes.map { it[0] to it.drop(2).toInt() }
+            .fold(findStart(park)) { currentPosition, (direction, distance) ->
+                val prevPosition = currentPosition.toMutableList() // [Y축 위치, X축 위치]
+                val nextPosition = currentPosition.toMutableList() // [Y축 위치, X축 위치]
+                repeat(distance) {
+                    nextPosition[0] += directions[direction]!!.first // Y축 위치 변경 (1칸씩)
+                    nextPosition[1] += directions[direction]!!.second // X축 위치 변경 (1칸씩)
+                    if (!(0 <= nextPosition[0] && nextPosition[0] < park.size && 0 <= nextPosition[1] && nextPosition[1] < park[0].length && park[nextPosition[0]][nextPosition[1]] != 'X'))
+                        return@fold prevPosition
                 }
-
-                'W' -> {
-                    if ((tempX - step) !in minX..maxX) return false
-                    for (index in 0 until step) {
-                        tempX--
-                        if (park[tempY][tempX] == 'X') return false
-                    }
-                }
-
-                'S' -> {
-                    if ((tempY + step) !in minY..maxY) return false
-                    for (index in 0 until step) {
-                        tempY++
-                        if (park[tempY][tempX] == 'X') return false
-                    }
-                }
-
-                'N' -> {
-                    if ((tempY - step) !in minY..maxY) return false
-                    for (index in 0 until step) {
-                        tempY--
-                        if (park[tempY][tempX] == 'X') return false
-                    }
-                }
-            }
-            return true
-        }
-
-        fun moveTo(opCode: Char, step: Int) {
-            if (!checkCanMove(opCode, step)) return
-            when (opCode) {
-                'E' -> {
-                    currentX += step
-                }
-
-                'W' -> {
-                    currentX -= step
-                }
-
-                'S' -> {
-                    currentY += step
-                }
-
-                'N' -> {
-                    currentY -= step
-                }
-            }
-        }
-
-        routes.forEach { route ->
-            moveTo(route.first(), Character.getNumericValue(route.last()))
-            println("$currentY, $currentX")
-        }
-        return intArrayOf(currentY, currentX)
+                return@fold nextPosition
+            }.toIntArray()
     }
 }
