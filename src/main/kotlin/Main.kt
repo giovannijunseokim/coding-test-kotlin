@@ -11,13 +11,9 @@ class Solution {
 
         for (y in wallpaper.indices)
             for (x in wallpaper.first().indices) {
-                println("$y, $x")
                 if (wallpaper[y][x] == '#') {
-                    println("matched : $y, $x")
-                    if (y < startPosition.first) startPosition = Pair(y, startPosition.second)
-                    if (x < startPosition.second) startPosition = Pair(startPosition.first, x)
-                    if (y + 1 > endPosition.first) endPosition = Pair(y + 1, endPosition.second)
-                    if (x + 1 > endPosition.second) endPosition = Pair(endPosition.first, x + 1)
+                    startPosition = Pair(minOf(y, startPosition.first), minOf(x, startPosition.second))
+                    endPosition = Pair(maxOf(y + 1, endPosition.first), maxOf(x + 1, endPosition.second))
                 }
             }
         println("$startPosition, $endPosition")
