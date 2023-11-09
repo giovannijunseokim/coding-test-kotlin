@@ -1,23 +1,23 @@
 fun main() {
-    Solution().also { println(it.solution(arrayOf(".#...", "..#..", "...#."))) }
+    Solution().also { println(it.solution("aukks", "wbqd", 5)) }
+    // z code : 122
 }
 
 class Solution {
-    fun solution(wallpaper: Array<String>): IntArray {
-        val answer: IntArray
+    fun solution(s: String, skip: String, index: Int): String {
+        val answer: String = s.map { char ->
+            var repeatCount = index
+            var newChar = char
+            while (repeatCount > 0) {
+                if (newChar == 'z')
+                    newChar = 'a'
+                else newChar += 1
 
-        var startPosition = Pair(wallpaper.size - 1, wallpaper[0].length)
-        var endPosition = Pair(0, 0)
-
-        for (y in wallpaper.indices)
-            for (x in wallpaper.first().indices) {
-                if (wallpaper[y][x] == '#') {
-                    startPosition = Pair(minOf(y, startPosition.first), minOf(x, startPosition.second))
-                    endPosition = Pair(maxOf(y + 1, endPosition.first), maxOf(x + 1, endPosition.second))
-                }
+                if (!skip.contains(newChar))
+                    repeatCount--
             }
-        println("$startPosition, $endPosition")
-        answer = (startPosition.toList() + endPosition.toList()).toIntArray()
+            newChar
+        }.joinToString(separator = "")
         return answer
     }
 }
