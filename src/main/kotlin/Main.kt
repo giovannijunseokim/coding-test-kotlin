@@ -1,23 +1,17 @@
 fun main() {
     Solution().also { println(it.solution("aukks", "wbqd", 5)) }
-    // z code : 122
 }
 
 class Solution {
     fun solution(s: String, skip: String, index: Int): String {
-        val answer: String = s.map { char ->
-            var repeatCount = index
-            var newChar = char
-            while (repeatCount > 0) {
-                if (newChar == 'z')
-                    newChar = 'a'
-                else newChar += 1
+        var answer: String = ""
+        val skippableAlphabets = skip.map { it }
+        val unskippableAlphabets = ('a'..'z').filter { it !in skippableAlphabets }
 
-                if (!skip.contains(newChar))
-                    repeatCount--
-            }
-            newChar
-        }.joinToString(separator = "")
+        s.forEach { char ->
+            val alphabetIndex = (unskippableAlphabets.indexOf(char) + index) % unskippableAlphabets.size
+            answer += unskippableAlphabets[alphabetIndex]
+        }
         return answer
     }
 }
