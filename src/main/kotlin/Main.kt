@@ -2,64 +2,35 @@ fun main() {
     Solution().also {
         println(
             it.solution(
-                today = "2022.05.19",
-                terms = arrayOf("A 6", "B 12", "C 3"),
-                privacies = arrayOf(
-                    "2021.05.02 A", "2021.07.01 B", "2022.02.19 C", "2022.02.20 C"
-                )
+                ingredient = intArrayOf(2, 1, 1, 2, 3, 1, 2, 3, 1)
             )
         )
     }
 }
 
 class Solution {
-    fun solution(today: String, terms: Array<String>, privacies: Array<String>): IntArray {
-        val answer = mutableListOf<Int>()
-        val mapTerms = mutableMapOf<Char, Int>().apply {
-            terms.forEach { put(it.first(), it.substring(2).toInt()) }
+    fun solution(ingredient: IntArray): Int {
+        var answer: Int = 0
+        var index = 0
+        val mutableIngredient = ingredient.toMutableList()
+        while (index + 3 < mutableIngredient.size) {
+            if (mutableIngredient[index] == 빵 && mutableIngredient[index + 1] == 야채 &&
+                mutableIngredient[index + 2] == 고기 && mutableIngredient[index + 3] == 빵
+            ) {
+                mutableIngredient.removeAt(index + 3)
+                mutableIngredient.removeAt(index + 2)
+                mutableIngredient.removeAt(index + 1)
+                mutableIngredient.removeAt(index)
+                index = if (index < 3) 0 else index - 3
+                answer++
+            } else index++
         }
-        val todayDate = Date(today)
-        privacies.forEachIndexed { index, privacy ->
-            val startDate = Date(privacy)
-            val duration = requireNotNull(mapTerms[privacy.last()])
-            val endDate = startDate.plusDuration(duration)
-            if (endDate.isBeforeOf(todayDate)) answer.add(index + 1)
-        }
-        return answer.toIntArray()
-    }
-}
-
-data class Date(private val year: Int, private val month: Int, private val date: Int) {
-    constructor(stringDate: String) : this(
-        year = stringDate.substring(0..3).toInt(),
-        month = stringDate.substring(5..6).toInt(),
-        date = stringDate.substring(8..9).toInt()
-    )
-
-    fun plusDuration(duration: Int): Date {
-        val tempMonth = month.plus(duration)
-        println(tempMonth)
-        var newYear = year + (tempMonth / 12)
-        var newMonth = tempMonth % 12
-        var newDate = date - 1
-        if (newMonth == 0) {
-            newYear--
-            newMonth = 12
-        }
-        if (newDate == 0) {
-            newMonth--
-            newDate = 28
-        }
-        return Date(newYear, newMonth, newDate)
+        return answer
     }
 
-    fun isBeforeOf(today: Date): Boolean {
-        if (this.year < today.year) return true
-        if (this.year > today.year) return false
-
-        if (this.month < today.month) return true
-        if (this.month > today.month) return false
-
-        return this.date < today.date
+    companion object {
+        const val 빵 = 1
+        const val 야채 = 2
+        const val 고기 = 3
     }
 }
