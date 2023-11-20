@@ -1,27 +1,26 @@
-import kotlin.math.max
-
 fun main() {
-    Solution().also {
-        println(it.solution(intArrayOf(1, 2, 3, 4, 5)))
-    }
+    println(Solution().solution(5, intArrayOf(5, 3), intArrayOf(4, 2)))
 }
 
 class Solution {
-    fun solution(answers: IntArray): IntArray {
-        val answerMap: MutableMap<Int, Int> = mutableMapOf(1 to 0, 2 to 0, 3 to 0)
-        val firstPersonAnswer = intArrayOf(1, 2, 3, 4, 5)
-        val secondPersonAnswer = intArrayOf(2, 1, 2, 3, 2, 4, 2, 5)
-        val thirdPersonAnswer = intArrayOf(3, 3, 1, 1, 2, 2, 4, 4, 5, 5)
-        val studentsAnswers = listOf(firstPersonAnswer, secondPersonAnswer, thirdPersonAnswer)
+    fun solution(n: Int, lost: IntArray, reserve: IntArray): Int {
+        val lostStudents = lost.sorted().toMutableSet()
+        val reserveStudents = reserve.sorted().toMutableSet()
 
-        answers.forEachIndexed { index, answer ->
-            studentsAnswers.forEachIndexed { studentIndex, studentAnswers ->
-                if (studentAnswers[index % studentAnswers.size] == answer)
-                    answerMap[studentIndex] = answerMap[studentIndex]?.plus(1) ?: 1
+        lost.forEach { lostStudent ->
+            if (reserveStudents.contains(lostStudent)) {
+                lostStudents.remove(lostStudent)
+                reserveStudents.remove(lostStudent)
             }
         }
 
-        return answerMap.filter { it.value == answerMap.values.maxOrNull() }.keys.toMutableList().map { it.plus(1) }
-            .sorted().toIntArray()
+        reserveStudents.forEach { reserveStudent ->
+            if (lostStudents.contains(reserveStudent - 1)) {
+                lostStudents.remove(reserveStudent - 1)
+            } else if (lostStudents.contains(reserveStudent + 1)) {
+                lostStudents.remove(reserveStudent + 1)
+            }
+        }
+        return n - lostStudents.size
     }
 }
