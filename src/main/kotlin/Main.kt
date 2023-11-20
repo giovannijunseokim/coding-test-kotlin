@@ -1,18 +1,11 @@
 fun main() {
-    println(Solution().solution(5, intArrayOf(5, 3), intArrayOf(4, 2)))
+    println(Solution().solution(3, intArrayOf(1), intArrayOf(1)))
 }
 
 class Solution {
     fun solution(n: Int, lost: IntArray, reserve: IntArray): Int {
-        val lostStudents = lost.sorted().toMutableSet()
-        val reserveStudents = reserve.sorted().toMutableSet()
-
-        lost.forEach { lostStudent ->
-            if (reserveStudents.contains(lostStudent)) {
-                lostStudents.remove(lostStudent)
-                reserveStudents.remove(lostStudent)
-            }
-        }
+        val lostStudents = (lost.sorted().toSet() - reserve.sorted().toSet()).toMutableSet()
+        val reserveStudents = (reserve.sorted().toSet() - lost.sorted().toSet())
 
         reserveStudents.forEach { reserveStudent ->
             if (lostStudents.contains(reserveStudent - 1)) {
