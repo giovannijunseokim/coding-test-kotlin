@@ -7,25 +7,13 @@ fun main() {
 class Solution {
     fun solution(numbers: IntArray, hand: String): String {
         val sb = StringBuilder()
-        val keypadMap = mapOf(
-            '1' to (0 to 0),
-            '2' to (0 to 1),
-            '3' to (0 to 2),
-            '4' to (1 to 0),
-            '5' to (1 to 1),
-            '6' to (1 to 2),
-            '7' to (2 to 0),
-            '8' to (2 to 1),
-            '9' to (2 to 2),
-            '0' to (3 to 1)
-        )
         var leftHandPosition = 3 to 0
         var rightHandPosition = 3 to 2
         for (number in numbers) {
-            val numberPosition: Pair<Int, Int> = keypadMap['0' + number]!!
+            val numberPosition: Pair<Int, Int> = keypadArray[number]
             if (number in 1..7 step 3) {
                 sb.append('L')
-                leftHandPosition = keypadMap['0' + number]!!
+                leftHandPosition = numberPosition
                 continue
             }
             if (number in 3..9 step 3) {
@@ -59,3 +47,6 @@ class Solution {
         return sb.toString()
     }
 }
+
+val keypadArray =
+    arrayOf(3 to 1, 0 to 0, 0 to 1, 0 to 2, 1 to 0, 1 to 1, 1 to 2, 2 to 0, 2 to 1, 2 to 2)
