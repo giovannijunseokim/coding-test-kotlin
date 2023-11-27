@@ -1,7 +1,11 @@
 fun main() {
-    println(Solution().solution(45))
+    println(Solution().solution(intArrayOf(1, 2, 3, 4), intArrayOf(-3, -1, 0, 2)))
 }
 
 class Solution {
-    fun solution(n: Int): Int = n.toString(3).reversed().toInt(3)
+    fun solution(aList: IntArray, bList: IntArray): Int {
+        return aList.mapIndexed { index, a ->
+            a * bList[index]
+        }.sum()
+    }
 }
