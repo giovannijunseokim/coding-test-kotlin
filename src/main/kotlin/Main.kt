@@ -3,9 +3,7 @@ fun main() {
 }
 
 class Solution {
-    fun solution(aList: IntArray, bList: IntArray): Int {
-        return aList.mapIndexed { index, a ->
-            a * bList[index]
-        }.sum()
+    fun solution(a: IntArray, b: IntArray): Int {
+        return a.zip(b).sumOf { it.first * it.second }
     }
 }
