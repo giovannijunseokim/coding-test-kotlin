@@ -8,9 +8,9 @@ fun main() {
 
 class Solution {
     fun solution(lottos: IntArray, win_nums: IntArray): IntArray {
-        val answer: MutableList<Int> = mutableListOf()
-        win_nums.map { lottos.contains(it) }.count { it }.also { answer += it + lottos.count { it == 0 } }
-            .let { answer += it }
-        return answer.map { if (it >= 2) 7 - it else 6 }.toIntArray()
+        return intArrayOf(
+            lottos.filter { win_nums.contains(it) || it == 0 }.size,
+            lottos.filter { win_nums.contains(it) }.size
+        ).map { if (it >= 2) 7 - it else 6 }.toIntArray()
     }
 }
