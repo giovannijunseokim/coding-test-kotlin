@@ -8,5 +8,5 @@ fun main() {
 
 class Solution {
     fun solution(absolutes: IntArray, signs: BooleanArray): Int =
-        absolutes.zip(signs.map { if (it) 1 else -1 }).sumOf { it.first * it.second }
+        absolutes.foldIndexed(0) { index, acc, num -> acc + if (signs[index]) num else -num }
 }
