@@ -1,16 +1,16 @@
 fun main() {
     println(
-        Solution().solution(
-            intArrayOf(44, 1, 0, 0, 31, 25), intArrayOf(31, 10, 45, 1, 6, 19)
-        )
+        Solution().solution(13, 17)
     )
 }
 
 class Solution {
-    fun solution(lottos: IntArray, win_nums: IntArray): IntArray {
-        return intArrayOf(
-            lottos.filter { win_nums.contains(it) || it == 0 }.size,
-            lottos.filter { win_nums.contains(it) }.size
-        ).map { if (it >= 2) 7 - it else 6 }.toIntArray()
-    }
+    fun solution(left: Int, right: Int): Int = (left..right).sumOf { if (it.measureCount % 2 == 0) it else -it }
+
+    private val Int.measureCount
+        get() = run {
+            var count = 0
+            for (i in 1..this) if (this % i == 0) count++
+            count
+        }
 }
