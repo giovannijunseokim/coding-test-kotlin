@@ -5,12 +5,6 @@ fun main() {
 }
 
 class Solution {
-    fun solution(left: Int, right: Int): Int = (left..right).sumOf { if (it.measureCount % 2 == 0) it else -it }
-
-    private val Int.measureCount
-        get() = run {
-            var count = 0
-            for (i in 1..this) if (this % i == 0) count++
-            count
-        }
+    fun solution(left: Int, right: Int): Int =
+        (left..right).sumOf { i -> if ((1..i).filter { i % it == 0 }.size % 2 == 0) i else -i }
 }
