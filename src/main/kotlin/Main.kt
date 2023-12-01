@@ -5,5 +5,5 @@ fun main() {
 }
 
 class Solution {
-    fun solution(numbers: IntArray): Int = (1..9).filterNot { numbers.contains(it) }.sum()
+    fun solution(numbers: IntArray): Int = (1..9).sum() - numbers.sum()
 }
