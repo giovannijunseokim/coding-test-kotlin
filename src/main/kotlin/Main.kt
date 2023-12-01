@@ -1,10 +1,9 @@
 fun main() {
     println(
-        Solution().solution(3, 20, 4)
+        Solution().solution(intArrayOf(1, 2, 3, 4, 6, 7, 8, 0))
     )
 }
 
 class Solution {
-    fun solution(price: Int, money: Int, count: Int): Long =
-        (1..count).sumOf { it * price.toLong() }.let { if (money > it) 0 else it - money }
+    fun solution(numbers: IntArray): Int = (1..9).filterNot { numbers.contains(it) }.sum()
 }
