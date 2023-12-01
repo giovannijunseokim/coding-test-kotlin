@@ -6,5 +6,5 @@ fun main() {
 
 class Solution {
     fun solution(price: Int, money: Int, count: Int): Long =
-        (((1..count).sumOf { price.toLong() * it } - money).takeIf { it > 0L } ?: 0)
+        (1..count).sumOf { it * price.toLong() }.let { if (money > it) 0 else it - money }
 }
