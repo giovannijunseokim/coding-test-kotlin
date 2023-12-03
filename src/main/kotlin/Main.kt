@@ -7,10 +7,5 @@ fun main() {
 }
 
 class Solution {
-    fun solution(sizes: Array<IntArray>): Int {
-        val sortedSizes = sizes.map { it.sortedDescending() }
-        val maxX = sortedSizes.maxOf { it[0] }
-        val maxY = sortedSizes.maxOf { it[1] }
-        return maxX * maxY
-    }
+    fun solution(sizes: Array<IntArray>): Int = sizes.maxOf { it.maxOf { it } } * sizes.maxOf { it.minOf { it } }
 }
