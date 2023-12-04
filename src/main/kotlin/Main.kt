@@ -16,7 +16,6 @@ class Solution {
             if (it.first < 4) {
                 scoreMap[it.second.first()] = scoreMap[it.second.first()]!!.plus(4 - it.first)
             }
-            println(scoreMap)
         }
         StringBuilder().apply {
             append(if (scoreMap['R']!! >= scoreMap['T']!!) 'R' else 'T')
