@@ -10,23 +10,18 @@ fun main() {
 
 class Solution {
     fun solution(id_list: Array<String>, report: Array<String>, k: Int): IntArray {
-
-        val idReportMap: MutableMap<String, MutableSet<String>> = id_list.associateWith {
-            mutableSetOf<String>()
-        }.toMutableMap().apply {
-            report.forEach { this[it.substringBefore(' ')]?.add(it.substringAfter(' ')) }
-        }
-
-        val idReportedMap: MutableMap<String, Int> = mutableMapOf<String, Int>().apply {
-            idReportMap.forEach {
-                it.value.forEach { reportedUser ->
-                    if (this[reportedUser] != null) this[reportedUser] = this[reportedUser]!! + 1
-                    else this[reportedUser] = 1
-                }
-            }
-        }
-
-        return idReportMap.map { it.value.count { idReportedMap.filter { it.value >= k }.map { it.key }.contains(it) } }
-            .toIntArray()
+        println(report.map { it.split(" ") }
+            .groupBy { it[1] }.asSequence().map { it.value.distinct() })
+        return report.map { it.split(" ") }
+            .groupBy { it[1] }
+            .asSequence()
+            .map { it.value.distinct() }
+            .filter { it.size >= k }
+            .flatten()
+            .map { it[0] }
+            .groupingBy { it }
+            .eachCount()
+            .run { id_list.map { getOrDefault(it, 0) }.toIntArray() }
     }
+
 }
