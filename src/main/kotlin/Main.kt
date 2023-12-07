@@ -1,31 +1,12 @@
 fun main() {
     println(
         Solution().solution(
-            "12321", "42531"
+            intArrayOf(1, 5, 2, 6, 3, 7, 4), arrayOf(intArrayOf(2, 5, 3), intArrayOf(4, 4, 1), intArrayOf(1, 7, 3))
         )
     )
 }
 
 class Solution {
-    fun solution(X: String, Y: String): String {
-        val sb = StringBuilder()
-        var xIndex = 0
-        var yIndex = 0
-
-        val x = X.toList().sortedDescending()
-        val y = Y.toList().sortedDescending()
-
-        while (xIndex < X.length && yIndex < Y.length) {
-            if (x[xIndex] == y[yIndex]) {
-                sb.append(x[xIndex])
-                xIndex++
-                yIndex++
-            } else if (x[xIndex] > y[yIndex]) xIndex++
-            else yIndex++
-        }
-        val answer = sb.toString()
-        if (answer.isBlank()) return "-1"
-        if (answer.first() == '0') return "0"
-        return answer
-    }
+    fun solution(array: IntArray, commands: Array<IntArray>): IntArray =
+        commands.map { array.toList().subList(it[0] - 1, it[1]).sorted()[it[2] - 1] }.toIntArray()
 }
