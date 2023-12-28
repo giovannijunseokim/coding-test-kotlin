@@ -1,15 +1,17 @@
+import kotlin.math.max
+import kotlin.math.min
+
 fun main() {
-    println(
-        Solution().solution(99999)
-    )
+    Solution().solution(24, 24)
 }
 
 class Solution {
-    fun solution(n: Int): Int {
-        val fiboList = (0..n).toMutableList()
-        for (index in 0 until fiboList.size) {
-            if (index > 1) fiboList[index] = (fiboList[index - 1] + fiboList[index - 2]).rem(1234567)
+    fun solution(brown: Int, yellow: Int): IntArray {
+        for (i in 1..yellow) {
+            if (yellow % i == 0 && (i + 2) * (yellow / i + 2) == brown + yellow) {
+                return intArrayOf(max((i + 2), (yellow / i + 2)), min((i + 2), (yellow / i + 2)))
+            }
         }
-        return fiboList.last()
+        throw Exception()
     }
 }
