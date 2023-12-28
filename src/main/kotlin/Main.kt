@@ -1,19 +1,15 @@
 fun main() {
     println(
-        Solution().solution("110010101001")
+        Solution().solution(99999)
     )
 }
 
 class Solution {
-    fun solution(s: String): IntArray {
-        var string = s
-        var count1 = 0
-        var round = 0
-        while (string != "1") {
-            string.forEach { if (it == '0') count1++ }
-            string = string.filterNot { it == '0' }.length.toString(2)
-            round++
+    fun solution(n: Int): Int {
+        val fiboList = (0..n).toMutableList()
+        for (index in 0 until fiboList.size) {
+            if (index > 1) fiboList[index] = (fiboList[index - 1] + fiboList[index - 2]).rem(1234567)
         }
-        return intArrayOf(round, count1)
+        return fiboList.last()
     }
 }
