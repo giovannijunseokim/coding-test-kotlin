@@ -6,12 +6,7 @@ fun main() {
 }
 
 class Solution {
-    fun solution(brown: Int, yellow: Int): IntArray {
-        for (i in 1..yellow) {
-            if (yellow % i == 0 && (i + 2) * (yellow / i + 2) == brown + yellow) {
-                return intArrayOf(max((i + 2), (yellow / i + 2)), min((i + 2), (yellow / i + 2)))
-            }
-        }
-        throw Exception()
-    }
+    fun solution(brown: Int, yellow: Int): IntArray =
+        (1..yellow).filter { yellow % it == 0 }.first { (it + 2) * (yellow / it + 2) == brown + yellow }
+            .let { intArrayOf(max(it + 2, yellow / it + 2), min(it + 2, yellow / it + 2)) }
 }
