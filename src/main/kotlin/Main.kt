@@ -4,16 +4,10 @@ fun main() {
 
 class Solution {
     fun solution(arr: IntArray): Int {
-        var answer = arr.first()
-        arr.forEach {
-            if (answer < it) answer = it
-        }
+        var answer = arr.max()
+        println(answer)
         while (arr.sumOf { answer % it } != 0) {
-            var max = arr.first()
-            arr.forEach {
-                if (max < it) max = it
-            }
-            answer += max
+            answer += arr.max()
         }
         return answer
     }
