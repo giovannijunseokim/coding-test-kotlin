@@ -1,20 +1,20 @@
-import kotlin.math.abs
-
 fun main() {
-    Solution().solution(8, 3, 7)
+    Solution().solution(intArrayOf(2, 6, 8, 14))
 }
 
 class Solution {
-    fun solution(n: Int, a: Int, b: Int): Int {
-        var round = 1
-        var player1 = a - 1
-        var player2 = b - 1
-        while (!(abs(player1 - player2) == 1 && player1 / 2 == player2 / 2)) {
-            player1 /= 2
-            player2 /= 2
-            round++
+    fun solution(arr: IntArray): Int {
+        var answer = arr.first()
+        arr.forEach {
+            if (answer < it) answer = it
         }
-
-        return round
+        while (arr.sumOf { answer % it } != 0) {
+            var max = arr.first()
+            arr.forEach {
+                if (max < it) max = it
+            }
+            answer += max
+        }
+        return answer
     }
 }
