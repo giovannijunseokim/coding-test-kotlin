@@ -1,14 +1,19 @@
 fun main() {
-    Solution().solution(intArrayOf(2, 6, 8, 14))
+    println("Answer is ${Solution().solution(4)}")
 }
 
 class Solution {
-    fun solution(arr: IntArray): Int {
-        var answer = arr.max()
-        println(answer)
-        while (arr.sumOf { answer % it } != 0) {
-            answer += arr.max()
+    fun solution(n: Int): Long = LongArray(2001).apply {
+        this[1] = 1
+        this[2] = 2
+    }.let {
+        for (i in 3..n) {
+            it[i] = (it[i - 1] + it[i - 2]) % 1234567
         }
-        return answer
+        it[n]
+    }
+
+    fun fibo() {
+
     }
 }
