@@ -1,11 +1,25 @@
 fun main() {
-    println("Answer is ${Solution().solution(4)}")
+    println("Answer is ${Solution().solution(2, intArrayOf(5, 1, 1, 1, 1, 2, 2, 2, 3))}")
 }
 
 class Solution {
-    fun solution(n: Int): Long = getFibonacci(n + 1)
+    fun solution(k: Int, tangerine: IntArray): Int {
+        val tangerineMap: MutableMap<Int, Int> = mutableMapOf()
+        tangerine.forEach {
+            tangerineMap[it] = tangerineMap[it]?.plus(1) ?: 1
+        }
+        val tangerineList = tangerineMap.toList().sortedBy { it.second }
+        var index = 0
+        var count = tangerine.size
+        while (count != k) {
+            val min = tangerineList[index].first
+            if (tangerineMap[min] == 1) {
+                tangerineMap.remove(min)
+                index++
+            } else tangerineMap[min] = tangerineMap[min]!!.minus(1)
+            count--
+        }
 
-    private tailrec fun getFibonacci(currentNumber: Int, acc: Long = 0, prevSum: Long = 1): Long =
-        if (currentNumber == 0) acc
-        else getFibonacci(currentNumber = currentNumber - 1, acc = prevSum, prevSum = (prevSum + acc) % 1234567)
+        return tangerineMap.size
+    }
 }
