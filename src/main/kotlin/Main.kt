@@ -4,27 +4,14 @@ fun main() {
 
 class Solution {
     fun solution(elements: IntArray): Int {
-        val answerSet = mutableSetOf<Int>()
-        answerSet.addAll(elements.toList())
+        val set = HashSet<Int>()
+        val doubling = elements + elements
 
-        var length = 2
-        var startIndex = 0
-
-        while (length <= elements.size) {
-            while (startIndex < elements.size) {
-                var index = startIndex
-                var sum = 0
-                while (index - startIndex + 1 <= length) {
-                    sum += elements[index.rem(elements.size)]
-                    index++
-                }
-                answerSet.add(sum)
-                startIndex++
-            }
-            length++
-            startIndex = 0
+        for (i in 1..elements.size) {
+            set.addAll((elements.indices).map {
+                doubling.slice(it until it + i).sum()
+            })
         }
-
-        return answerSet.size
+        return set.size
     }
 }
