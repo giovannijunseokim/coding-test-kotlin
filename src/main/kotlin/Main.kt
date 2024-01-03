@@ -1,25 +1,30 @@
 fun main() {
-    println("Answer is ${Solution().solution(2, intArrayOf(5, 1, 1, 1, 1, 2, 2, 2, 3))}")
+    println("Answer is ${Solution().solution(intArrayOf(7, 9, 1, 1, 4))}")
 }
 
 class Solution {
-    fun solution(k: Int, tangerine: IntArray): Int {
-        val tangerineMap: MutableMap<Int, Int> = mutableMapOf()
-        tangerine.forEach {
-            tangerineMap[it] = tangerineMap[it]?.plus(1) ?: 1
-        }
-        val tangerineList = tangerineMap.toList().sortedBy { it.second }
-        var index = 0
-        var count = tangerine.size
-        while (count != k) {
-            val min = tangerineList[index].first
-            if (tangerineMap[min] == 1) {
-                tangerineMap.remove(min)
-                index++
-            } else tangerineMap[min] = tangerineMap[min]!!.minus(1)
-            count--
+    fun solution(elements: IntArray): Int {
+        val answerSet = mutableSetOf<Int>()
+        answerSet.addAll(elements.toList())
+
+        var length = 2
+        var startIndex = 0
+
+        while (length <= elements.size) {
+            while (startIndex < elements.size) {
+                var index = startIndex
+                var sum = 0
+                while (index - startIndex + 1 <= length) {
+                    sum += elements[index.rem(elements.size)]
+                    index++
+                }
+                answerSet.add(sum)
+                startIndex++
+            }
+            length++
+            startIndex = 0
         }
 
-        return tangerineMap.size
+        return answerSet.size
     }
 }
