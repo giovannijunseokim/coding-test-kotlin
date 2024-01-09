@@ -1,17 +1,43 @@
+import java.util.*
+
 fun main() {
-    println("Answer is ${Solution().solution(intArrayOf(7, 9, 1, 1, 4))}")
+    println("Answer is ${Solution().solution("(((")}")
 }
 
 class Solution {
-    fun solution(elements: IntArray): Int {
-        val set = HashSet<Int>()
-        val doubling = elements + elements
-
-        for (i in 1..elements.size) {
-            set.addAll((elements.indices).map {
-                doubling.slice(it until it + i).sum()
-            })
+    fun solution(s: String): Int {
+        val sb = StringBuilder(s)
+        var answer = 0
+        repeat(s.length) {
+            if (sb.append(sb.first()).deleteAt(0).toString().isValid()) answer++
         }
-        return set.size
+        return answer
+    }
+
+    private fun String.isValid(): Boolean {
+        val stack = Stack<Char>()
+        this.forEach {
+            when (it) {
+                '(', '{', '[' -> {
+                    stack.push(it)
+                }
+
+                ')' -> {
+                    if (stack.isEmpty()) return false
+                    if (stack.isNotEmpty() && stack.peek() == '(') stack.pop()
+                }
+
+                '}' -> {
+                    if (stack.isEmpty()) return false
+                    if (stack.peek() == '{') stack.pop() else return false
+                }
+
+                ']' -> {
+                    if (stack.isEmpty()) return false
+                    if (stack.peek() == '[') stack.pop() else return false
+                }
+            }
+        }
+        return stack.isEmpty()
     }
 }
